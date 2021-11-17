@@ -67,7 +67,18 @@
     </ion-row>
 
     <ion-row class="ion-text-center">
-      <ion-col>
+
+      <ion-col size="0.9" *ngFor="let c of images; let i = index">
+        <img src="../assets/cards/cardBackground/cardBackground.png" *ngIf="!c.isFlipped" (click)="selectCard(c)"/>
+
+        <img [src]="imageDir + c.name +  '.png'" *ngIf="c.isFlipped"  (click)="selectCard(c)"/>
+        
+      </ion-col>
+      
+    </ion-row>
+
+    <ion-row class="ion-text-center" >
+      <ion-col >
         <ion-card class="card-class">
           <img  src="../assets/playIcons/player1.svg"/>
           <ion-card-header>
@@ -77,18 +88,21 @@
         
         </ion-card>
       </ion-col>
-      
-      <ion-col>
+
+      <ion-col >
         <ion-card class="card-class">
           <img src="../assets/playIcons/player2.svg"/>
           <ion-card-header>
             <ion-card-title>{{this.player2Name}}</ion-card-title>
-            <ion-card-title>Score</ion-card-title>
+            <ion-card-title>Score:</ion-card-title>
           </ion-card-header>
         </ion-card>
       </ion-col>
-      
+
+     
     </ion-row>
+
+
 
    
   </ion-grid>
