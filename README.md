@@ -2,8 +2,7 @@
 see https://ionicframework.com/docs/intro/cli to install ionic cli
 
 # run project
-run `npm i`
-run `ionic serve`
+run `npm i` then run `ionic serve`
 
 # demo url
 see https://memory-9710a.web.app/home for a live example 
