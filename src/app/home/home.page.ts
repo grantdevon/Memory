@@ -14,6 +14,11 @@ export class HomePage {
   player2Name: string;
   isStartScreen: boolean;
   gameScreen: boolean;
+  gameDone: boolean;
+  winnerName: string;
+  winnerScore = 0;
+  didNotWin: string;
+  didNotWinScore = 0;
   cardsTotal = 54
   imageDir = "../assets/cards/"
   imageNames = ["2_black_f", "2_black_s", "2_red_d", "2_red_h",
@@ -54,6 +59,7 @@ export class HomePage {
     
     this.isStartScreen = true
     this.gameScreen = false
+    this.gameDone = false
     this.player1Name = ""
     this.player2Name = ""
  
@@ -168,12 +174,12 @@ export class HomePage {
 
 
   selectCard(c) {
-    this.checkIfPlayerWon()
+    
 
     if(c.isFlipped) {
       this.presentAlert("Please select a different card")
     } 
-
+    
     c.isFlipped = true
   
     for (let i in this.images) {
@@ -192,7 +198,9 @@ export class HomePage {
       const isMatch = this.checkIfCardsMatch(this.img)
      
       if (isMatch){
+        
         this.presentAlert("It's a match!")
+        
         c.isMatched = true
         this.img = []
       } else {
@@ -222,6 +230,10 @@ export class HomePage {
   }
 
   matchWon(){
+    this.isStartScreen = false
+    this.gameScreen = false
+    this.gameDone = true
+
     
     if (this.player1["score"] > this.player2["score"]){
       this.player1["isWinner"] = true
@@ -231,8 +243,13 @@ export class HomePage {
 
     this.players.forEach(player => {
       if (player.isWinner == true){
-
-      }
+        this.winnerName = player.name
+        this.winnerScore = player.score
+      } 
+      if (player.isWinner == false){
+        this.didNotWin = player.name
+        this.didNotWinScore = player.score
+      } 
     })
   }
 
@@ -245,6 +262,7 @@ export class HomePage {
     let secondCardNameSliced = secondCardName.slice(0, -1)
 
     if (firstCardNameSliced === secondCardNameSliced) {
+      
       // give current active player 2 points
       this.players.forEach(player => {
         if (player.isActive == true) {
@@ -253,6 +271,7 @@ export class HomePage {
       })
       this.switchPlayer()
       this.flipIsMatchSwitch(img)
+      this.checkIfPlayerWon()
       return true;
     } else {
       this.switchPlayer()
@@ -287,9 +306,13 @@ export class HomePage {
       if (this.images[i].isFlipped == true && this.images[i].isMatched == false) {
         setTimeout(() => {
           this.images[i].isFlipped = false
-        }, 500)
+        }, 300)
       } 
     }
+  }
+
+  playAgain(){
+    window.location.reload()
   }
 
 
