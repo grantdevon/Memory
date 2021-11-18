@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 
 
@@ -13,6 +14,7 @@ export class HomePage {
   player2Name: string;
   isStartScreen: boolean;
   gameScreen: boolean;
+  cardsTotal = 54
   imageDir = "../assets/cards/"
   imageNames = ["2_black_f", "2_black_s", "2_red_d", "2_red_h",
   "3_black_f", "3_black_s", "3_red_d", "3_red_h",
@@ -38,9 +40,12 @@ export class HomePage {
 
   players = []
 
+  currentActivePlayer: string;
+
 
   constructor(
-    private alert: AlertController
+    private alert: AlertController,
+    private router: Router
   ) {
     
   }
@@ -49,13 +54,12 @@ export class HomePage {
     
     this.isStartScreen = true
     this.gameScreen = false
-    this.player1Name = "Grant"
-    this.player2Name = "Devon"
+    this.player1Name = ""
+    this.player2Name = ""
  
     this.populateImages(this.imageNames)
     this.shuffle(this.images)
 
-    this.setUpPlayers()
     
   }
 
@@ -64,9 +68,7 @@ export class HomePage {
     this.player2Setup()
     this.players.push(this.player1)
     this.players.push(this.player2)
-    setTimeout(() => {
-      this.whoGoesFirstPopUp(this.player1Name, this.player2Name)
-    }, 300)
+    
   }
 
   async whoGoesFirstPopUp(player1Name, player2Name){
@@ -93,6 +95,7 @@ export class HomePage {
   setPlayerToActive(playerName){
     this.players.forEach(player => {
       if (player.name ===  playerName){
+        this.currentActivePlayer = player.name
         player.isActive = true
       } 
     })
@@ -103,7 +106,8 @@ export class HomePage {
     this.player1 = {
       name: this.player1Name,
       score: 0,
-      isActive: false
+      isActive: false,
+      isWinner: false
     }
   }
 
@@ -112,7 +116,8 @@ export class HomePage {
     this.player2 = {
       name: this.player2Name,
       score: 0,
-      isActive: false
+      isActive: false,
+      isWinner: false
     }
   }
 
@@ -123,7 +128,6 @@ export class HomePage {
         name: imageNames[i],
         isFlipped: false,
         isMatched: false,
-        playerName: ""
       })
     }
   }
@@ -133,6 +137,10 @@ export class HomePage {
     if (this.player1Name != undefined && this.player2Name != undefined) {
       this.isStartScreen = false
       this.gameScreen = true
+      this.setUpPlayers()
+      setTimeout(() => {
+        this.whoGoesFirstPopUp(this.player1Name, this.player2Name)
+      }, 300)
     } else {
       this.presentAlert("Please make sure both player names are entered.")
     }
@@ -157,12 +165,10 @@ export class HomePage {
       a[j] = x
     }
   }
- 
-  resetSelects() {
-    
-  }
+
 
   selectCard(c) {
+    this.checkIfPlayerWon()
 
     if(c.isFlipped) {
       this.presentAlert("Please select a different card")
@@ -175,20 +181,14 @@ export class HomePage {
         this.img.push(this.images[i])
         
         if (this.img.length > 2){
-          // this.presentAlert("fok!")
           this.img = []
-          // this.flipCardsBack()
         }
 
       } 
      
     }
     if (this.img.length == 2) {
-      // check if cards match else switch to new player and set img.isFlipped to false
-      
-      
-      // check if cards match
-      // return true if match, current player also gets 2 points, remove cards
+
       const isMatch = this.checkIfCardsMatch(this.img)
      
       if (isMatch){
@@ -199,11 +199,7 @@ export class HomePage {
         this.img = []
         this.flipCardsBack()
       }
-      console.log(isMatch);
       this.img = []
-      
-
-      // flip cards back
 
     } else if (this.img.length > 2){
       this.img = []
@@ -216,6 +212,30 @@ export class HomePage {
      
   }
 
+  checkIfPlayerWon(){
+    let total = this.player1["score"] + this.player2["score"]
+
+    if (total == this.cardsTotal){
+      this.matchWon()
+    }
+    
+  }
+
+  matchWon(){
+    
+    if (this.player1["score"] > this.player2["score"]){
+      this.player1["isWinner"] = true
+    } else {
+      this.player2["isWinner"] = true
+    }
+
+    this.players.forEach(player => {
+      if (player.isWinner == true){
+
+      }
+    })
+  }
+
   checkIfCardsMatch(img){
     let firstCardName = img[0].name
     let secondCardName = img[1].name
@@ -225,13 +245,32 @@ export class HomePage {
     let secondCardNameSliced = secondCardName.slice(0, -1)
 
     if (firstCardNameSliced === secondCardNameSliced) {
+      // give current active player 2 points
+      this.players.forEach(player => {
+        if (player.isActive == true) {
+          player.score = player.score+2
+        }
+      })
+      this.switchPlayer()
       this.flipIsMatchSwitch(img)
       return true;
     } else {
+      this.switchPlayer()
       return false;
     }
 
   } 
+
+  switchPlayer(){
+    this.players.forEach(player => {
+      if (player.isActive == true ){
+        player.isActive = false
+      } else {
+        this.currentActivePlayer = player.name
+        player.isActive = true
+      }
+    })
+  }
 
   flipIsMatchSwitch(img){
     for (let i in this.images) {
@@ -240,21 +279,16 @@ export class HomePage {
           this.images[i].isMatched = true
         }
       }
-      
     }
   }
 
   flipCardsBack(){
-    
     for (let i in this.images) {
       if (this.images[i].isFlipped == true && this.images[i].isMatched == false) {
         setTimeout(() => {
           this.images[i].isFlipped = false
-
         }, 500)
-        
       } 
-     
     }
   }
 

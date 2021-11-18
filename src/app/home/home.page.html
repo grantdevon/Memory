@@ -1,26 +1,16 @@
-<ion-header >
+<ion-header *ngIf="isStartScreen">
   <ion-toolbar color="#585ab8">
     <ion-title >
       Memory
     </ion-title>
-    <ion-button  slot="end" color="warning"> Restart game</ion-button>
     <ion-button allow="autoplay" href="https://www.youtube.com/embed/xvFZjo5PgG0?autoplay=1" slot="end" color="danger"> Exit game</ion-button>
   </ion-toolbar>
 </ion-header>
 
-<!-- <ion-header *ngIf="gameScreen">
-  <ion-toolbar color="#585ab8">
-    <ion-title >
-      Memory
-    </ion-title>
-    <ion-button allow="autoplay" href="https://www.youtube.com/embed/xvFZjo5PgG0?autoplay=1" slot="end" color="danger"> Exit game</ion-button>
-  </ion-toolbar>
-</ion-header> -->
 
 
-<!-- <ion-content fullscreen *ngIf="isStartScreen"> -->
+<ion-content fullscreen *ngIf="isStartScreen">
 
-<!-- <ion-content  >
 
   <h1 class="readyToPlay">Are you ready to play?</h1>
   <ion-grid>
@@ -48,54 +38,65 @@
   </ion-grid>
 
 
-</ion-content> -->
+</ion-content>
 
-<!-- <ion-content fullscreen *ngIf="gameScreen"> -->
-<ion-content  >
-
-  
+<ion-content fullscreen *ngIf="gameScreen">
   <ion-grid>
-
-    <ion-row class="ion-text-center">
-
-      <ion-col size="0.9" *ngFor="let c of images; let i = index">
-        <img src="../assets/cards/cardBackground/cardBackground.png" *ngIf="!c.isFlipped" (click)="selectCard(c)"/>
-
-        <img [src]="imageDir + c.name +  '.png'" *ngIf="c.isFlipped && !c.isMatched"  (click)="selectCard(c)"/>
-        
+    <ion-row>
+      <ion-col>
+        <ion-label class="ion-text-center">
+        Memory
+        </ion-label >
       </ion-col>
-      
+      <ion-col class="ion-text-end">
+        <ion-button  color="warning" (click)="ngOnInit()"> Restart game</ion-button>
+        <ion-button  color="danger"> Exit game</ion-button>
+      </ion-col>
     </ion-row>
 
-    <ion-row class="ion-text-center" >
-      <ion-col >
-        <ion-card  class="card-class">
-          <img  src="../assets/playIcons/player1.svg"/>
-          <ion-card-header>
-            <ion-card-title>{{this.player1["name"]}}</ion-card-title>
-            <ion-card-title>Score: {{this.player1["score"]}}</ion-card-title>
-          </ion-card-header>
-        
-        </ion-card>
-      </ion-col>
-
-      <ion-col >
-        <ion-card class="card-class">
-          <img src="../assets/playIcons/player2.svg"/>
-          <ion-card-header>
-            <ion-card-title>{{this.player2["name"]}}</ion-card-title>
-            <ion-card-title>Score: {{this.player2["score"]}}</ion-card-title>
-          </ion-card-header>
-        </ion-card>
-      </ion-col>
-
-     
-    </ion-row>
-
-
-
+    
    
+    <ion-row class="ion-align-items-center ion-justify-content-center">
+      <ion-col class="ion-align-items-center ion-justify-content-center" size="2">
+           <ion-card  class="card-class">
+              <img  src="../assets/playIcons/player1.svg"/>
+              <ion-card-header>
+              <ion-card-title>{{this.player1["name"]}}</ion-card-title>
+              <ion-card-title>Score: {{this.player1["score"]}}</ion-card-title>
+         </ion-card-header>
+       </ion-card>
+     </ion-col>
+     <ion-col size="6">
+         <ion-grid>
+             <ion-row class="ion-text-center">
+                 <ion-col size="0.9" *ngFor="let c of images; let i = index">
+                     <img src="../assets/cards/cardBackground/cardBackground.png" *ngIf="!c.isFlipped" (click)="selectCard(c)"/>
+                     <img [src]="imageDir + c.name +  '.png'" *ngIf="c.isFlipped && !c.isMatched"  (click)="selectCard(c)"/>
+                 </ion-col>
+             </ion-row>
+         </ion-grid>
+     </ion-col>
+     <ion-col size="2">
+         <ion-card class="card-class">
+             <img src="../assets/playIcons/player2.svg"/>
+
+             <ion-card-header>
+                 <ion-card-title>{{this.player2["name"]}}</ion-card-title>
+                 <ion-card-title>Score: {{this.player2["score"]}}</ion-card-title>
+             </ion-card-header>
+          </ion-card>
+     </ion-col>
+  </ion-row>
+
+  <ion-row class="ion-text-center">
+    <ion-col>
+      <ion-button>Who's turn: {{this.currentActivePlayer}}</ion-button>
+    </ion-col>
+  </ion-row>
+
   </ion-grid>
 
 </ion-content>
+
+
 

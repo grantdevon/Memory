@@ -11,6 +11,10 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'matchwon',
+    loadChildren: () => import('./matchwon/matchwon.module').then( m => m.MatchwonPageModule)
+  },
 ];
 
 @NgModule({
