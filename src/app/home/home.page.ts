@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 
 
@@ -50,7 +49,6 @@ export class HomePage {
 
   constructor(
     private alert: AlertController,
-    private router: Router
   ) {
     
   }
