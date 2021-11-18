@@ -306,7 +306,7 @@ export class HomePage {
       if (this.images[i].isFlipped == true && this.images[i].isMatched == false) {
         setTimeout(() => {
           this.images[i].isFlipped = false
-        }, 300)
+        }, 500)
       } 
     }
   }

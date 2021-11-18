@@ -49,7 +49,7 @@
       <ion-col class="ion-text-end">
         
         <ion-button color="warning" (click)="ngOnInit()"> Restart game</ion-button>
-        <ion-button  color="danger"> Exit game</ion-button>
+        <ion-button  color="danger" (click)="playAgain()"> Exit game</ion-button>
       </ion-col>
     </ion-row>
    
@@ -107,11 +107,8 @@
     </ion-row>
 
     <ion-row class="ion-text-center">
-      <!-- insert picture -->
       <ion-col>
-        <ion-card class="card-class">
           <img src="../assets/playIcons/winner.svg"/>
-        </ion-card>
       </ion-col>
     </ion-row>
 
