@@ -31,4 +31,4 @@ These rules have been met:
 I have also made it that the jokers match.
 
 # To the reader
-I hope all is well and I wish you a wonderful day. Peace ☮️ and Love ❤️
+I hope all is well and I wish you a wonderful day. Peace ☮️  and Love ❤️
