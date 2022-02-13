@@ -7,15 +7,6 @@ run `npm i` then run `ionic serve`
 # demo url
 see https://memory-9710a.web.app/home for a live example 
 
-# personal notes about the project
-This project is a *working concept*. Given the limited amount of time (in this case time is described as "limited" because I have a full time job) I rushed this project a bit. 
-For now the rules are met but there a many more things still to be done properly:
-1. Refactor code, generate services and create individual pages for future scalablity if needed
-2. Scalable UI
-3. Card flip animation
-4. Card timing on live example needs work
-5. Smaller things that ties in with 1. e.g refactor code (track score management with NGRX, NGXS. make it less loopy)
-
 These rules have been met:
 1. The game should consist of 2 players
 2. Only 1 player can play at a time.
